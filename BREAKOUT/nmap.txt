@@ -1,0 +1,28 @@
+# Nmap 7.92 scan initiated Fri Mar 11 12:16:51 2022 as: nmap -p- -sV -sC --min-rate 2000 -oN nmap.txt 192.168.100.37
+Nmap scan report for 192.168.100.37
+Host is up (0.00029s latency).
+Not shown: 65530 closed tcp ports (reset)
+PORT      STATE SERVICE     VERSION
+80/tcp    open  http        Apache httpd 2.4.51 ((Debian))
+|_http-server-header: Apache/2.4.51 (Debian)
+|_http-title: Apache2 Debian Default Page: It works
+139/tcp   open  netbios-ssn Samba smbd 4.6.2
+445/tcp   open  netbios-ssn Samba smbd 4.6.2
+10000/tcp open  http        MiniServ 1.981 (Webmin httpd)
+|_http-server-header: MiniServ/1.981
+|_http-title: 200 &mdash; Document follows
+20000/tcp open  http        MiniServ 1.830 (Webmin httpd)
+|_http-title: 200 &mdash; Document follows
+MAC Address: 08:00:27:54:A8:36 (Oracle VirtualBox virtual NIC)
+
+Host script results:
+| smb2-security-mode: 
+|   3.1.1: 
+|_    Message signing enabled but not required
+|_nbstat: NetBIOS name: BREAKOUT, NetBIOS user: <unknown>, NetBIOS MAC: <unknown> (unknown)
+| smb2-time: 
+|   date: 2022-03-11T17:17:11
+|_  start_date: N/A
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Mar 11 12:17:40 2022 -- 1 IP address (1 host up) scanned in 48.78 seconds

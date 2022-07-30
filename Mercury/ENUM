@@ -1,0 +1,8 @@
+Fact id: 1. (('Mercury does not have any moons or rings.',),)
+
+ Still todo:
+
+    Add CSS.
+    Implement authentication (using users table)
+    Use models in django instead of direct mysql call
+    All the other stuff, so much!!!

